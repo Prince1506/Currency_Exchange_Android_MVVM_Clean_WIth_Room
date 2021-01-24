@@ -5,24 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mvvm_clean.currency_exchange.core.base.BaseViewModel
 import com.mvvm_clean.currency_exchange.core.domain.exception.Failure
-import com.mvvm_clean.currency_exchange.core.domain.extension.launchSilent
 import com.mvvm_clean.currency_exchange.core.source.disk.DiskDataSource
 import com.mvvm_clean.currency_exchange.features.canada_facts.data.CurrencyExchangeRequestEntity
-import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CanadaFactsInfo
+import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CurrencyRateInfo
 import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CurrencyListInfo
 import com.mvvm_clean.currency_exchange.features.canada_facts.domain.use_cases.GetCanadaFactsInfo
 import com.mvvm_clean.currency_exchange.features.canada_facts.domain.use_cases.GetCurrencyListInfo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 /**
  * View Model responsible for showing canada fact list on screen.
  * It will interact with both data as well as UI layer
  */
-class CanadaFactsViewModel @Inject constructor(
+class CurrencyRatesViewModel @Inject constructor(
     private val getCanadaFactsInfo: GetCanadaFactsInfo,
     private val getCurrencyListInfo: GetCurrencyListInfo,
     private val diskDataSource: DiskDataSource
@@ -61,12 +58,6 @@ class CanadaFactsViewModel @Inject constructor(
         }
     }
 
-    suspend fun getDataFromDisk() =
-        launchSilent(coroutineContext, Job()) {
-            diskDataSource.getAllCurrencyExchangeRates()?.get(0)
-        }
-
-
     fun getCurrencyList(accessKey: String) {
         isProgressLoading.value = true
         getCurrencyListInfo(accessKey) { it.fold(::handleApiListFailure, ::handleCurrencyList) }
@@ -83,32 +74,30 @@ class CanadaFactsViewModel @Inject constructor(
     }
 
     private suspend fun insertIntoDb() {
-        diskDataSource.insertAllCurrencyExchangeRates(CanadaFactsInfo.empty)
+        diskDataSource.insertAllCurrencyExchangeRates(CurrencyRateInfo.empty)
     }
 
 
-    fun handleFactList(canadaFactsInfo: CanadaFactsInfo) {
+    fun handleFactList(currencyRateInfo: CurrencyRateInfo) {
         viewModelScope.launch(Dispatchers.IO) {
-            diskDataSource.insertAllCurrencyExchangeRates(canadaFactsInfo)
+            diskDataSource.insertAllCurrencyExchangeRates(currencyRateInfo)
 
         }
 
         isProgressLoading.value = false
         mutableCanadaLiveData.value = CanadaFactsModel(
-            canadaFactsInfo.successNotNull,
-            canadaFactsInfo.termsNotNull,
-            canadaFactsInfo.privacyNotNull,
-            canadaFactsInfo.sourceNotNull,
-            canadaFactsInfo.timestampNotNull,
-            canadaFactsInfo.quotesNotNull,
-            canadaFactsInfo.error
+            currencyRateInfo.successNotNull,
+            currencyRateInfo.termsNotNull,
+            currencyRateInfo.privacyNotNull,
+            currencyRateInfo.sourceNotNull,
+            currencyRateInfo.timestampNotNull,
+            currencyRateInfo.quotesNotNull,
+            currencyRateInfo.error
         )
     }
 
     private fun handleCurrencyList(currencyListInfo: CurrencyListInfo) {
         isProgressLoading.value = false
-
-
         mutableCurrencyLiveData.value = CurrencyListModel(
             currencyListInfo.success,
             currencyListInfo.terms,

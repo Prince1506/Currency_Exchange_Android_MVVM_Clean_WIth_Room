@@ -1,13 +1,10 @@
 package com.mvvm_clean.currency_exchange.core.di
 
-import android.content.Context
-import com.mvvm_clean.currency_exchange.AboutCanadaApplication
 import com.mvvm_clean.currency_exchange.App
 import com.mvvm_clean.currency_exchange.BuildConfig
 import com.mvvm_clean.currency_exchange.features.canada_facts.domain.repo.AboutCanadaRepository
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.Dispatchers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -16,11 +13,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-import kotlin.coroutines.CoroutineContext
 
 @Module
 class ApplicationModule(private val application: App) {
     var timeout = 5 * 10L
+
     @Provides
     @Singleton
     fun provideApplicationContext(): App = application
@@ -55,7 +52,7 @@ class ApplicationModule(private val application: App) {
             try {
                 val original = chain.request()
                 request = original.newBuilder().build()
-                return@Interceptor  chain.proceed(request)
+                return@Interceptor chain.proceed(request)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -73,9 +70,5 @@ class ApplicationModule(private val application: App) {
     @Singleton
     fun provideCanadaFactsRepository(dataSource: AboutCanadaRepository.Network): AboutCanadaRepository =
         dataSource
-
-//    @Provides
-//    @Singleton
-//    fun provideDiskDataSource(appContext: AboutCanadaApplication) = DiskDataSource(appContext)
 
 }

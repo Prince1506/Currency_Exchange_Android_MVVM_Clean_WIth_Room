@@ -20,10 +20,12 @@ internal interface AboutCanadaApi {
         @Query("access_key") accessKey: String,
         @Query("currencies", encoded = true) currency: String,
         @Query("source") source: String,
-        @Query("format") format: Int): Call<CanadaFactsResponseEntity>
+        @Query("format") format: Int
+    ): Call<CanadaFactsResponseEntity>
 
     @GET(CURRENCY_LIST)
     fun getCurrencyList(
-        @Query("access_key") accessKey: String): Call<CurrencyListResponseEntity>
+        @Query("access_key") accessKey: String
+    ): Call<CurrencyListResponseEntity>
 
 }

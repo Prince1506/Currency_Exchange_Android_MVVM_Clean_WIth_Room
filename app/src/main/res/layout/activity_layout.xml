@@ -17,8 +17,8 @@
         android:layout_width="100dp"
         android:layout_height="99dp"
         android:layout_gravity="center"
-        android:visibility="gone"
         android:indeterminateOnly="true"
-        android:indeterminateTint="@color/black" />
+        android:indeterminateTint="@color/black"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

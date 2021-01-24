@@ -14,6 +14,6 @@ data class CurrencyListInfo(
 ) {
 
     companion object {
-        val empty = CurrencyListInfo(String.empty(), String.empty(), String.empty(),  emptyMap())
+        val empty = CurrencyListInfo(String.empty(), String.empty(), String.empty(), emptyMap())
     }
 }

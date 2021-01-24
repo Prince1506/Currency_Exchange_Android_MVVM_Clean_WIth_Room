@@ -6,7 +6,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
-
+/**
+ * It's for Room API to convert Map object into json format so as to store them inside SQL
+ */
 class MapConverters {
     private val gson = Gson()
 
@@ -18,6 +20,6 @@ class MapConverters {
 
     @TypeConverter
     fun dateToTimestamp(map: Map<String?, Double?>?): String? {
-        return gson?.toJson(map);
+        return gson.toJson(map)
     }
 }

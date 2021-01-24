@@ -15,7 +15,7 @@ const val tableName = "TABLE_CURRENCY_EXCHANGE_LIST"
 
 
 @Entity(tableName = tableName)
-data class CanadaFactsInfo @Ignore constructor(
+data class CurrencyRateInfo @Ignore constructor(
     @PrimaryKey
     var id: Int = 0,
     var success: String? = null,
@@ -47,12 +47,12 @@ data class CanadaFactsInfo @Ignore constructor(
         get() = if (quotes == null) emptyMap() else createNotEmptyMap(quotes)
 
 
-    fun createNotEmptyMap(quotes: Map<String?, Double?>?) :Map<String, Double>{
+    fun createNotEmptyMap(quotes: Map<String?, Double?>?): Map<String, Double> {
         val quotesNotNull: MutableMap<String, Double> = HashMap() //Object is containing String
         if (quotes != null) {
             for ((key, value) in quotes) {
                 if (key != null && value != null) {
-                    quotesNotNull[key] = value as Double
+                    quotesNotNull[key] = value
                 }
             }
         }
@@ -79,7 +79,7 @@ data class CanadaFactsInfo @Ignore constructor(
     )
 
     companion object {
-        val empty = CanadaFactsInfo(
+        val empty = CurrencyRateInfo(
             0,
             String.empty(),
             String.empty(),

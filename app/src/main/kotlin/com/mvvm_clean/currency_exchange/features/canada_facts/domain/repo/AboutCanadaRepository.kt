@@ -13,7 +13,7 @@ import com.mvvm_clean.currency_exchange.core.source.disk.DiskDataSource
 import com.mvvm_clean.currency_exchange.features.canada_facts.data.CanadaFactsResponseEntity
 import com.mvvm_clean.currency_exchange.features.canada_facts.data.CurrencyExchangeRequestEntity
 import com.mvvm_clean.currency_exchange.features.canada_facts.data.CurrencyListResponseEntity
-import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CanadaFactsInfo
+import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CurrencyRateInfo
 import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CurrencyListInfo
 import com.mvvm_clean.currency_exchange.features.canada_facts.domain.api.AboutCanadaApiImpl
 import retrofit2.Call
@@ -26,7 +26,7 @@ interface AboutCanadaRepository {
 
     fun getFacts(
         currencyExchangeRequestEntity: CurrencyExchangeRequestEntity,
-    ): Either<Failure, CanadaFactsInfo>
+    ): Either<Failure, CurrencyRateInfo>
 
     class Network
     @Inject constructor(
@@ -37,16 +37,17 @@ interface AboutCanadaRepository {
 
         override fun getFacts(
             currencyExchangeRequestEntity: CurrencyExchangeRequestEntity,
-        ): Either<Failure, CanadaFactsInfo> {
+        ): Either<Failure, CurrencyRateInfo> {
 
-            val currencyExchangeRequestEntityDb = diskDataSource.getCurrencyExchangeRateById(currencyExchangeRequestEntity.id)
+            val currencyExchangeRequestEntityDb =
+                diskDataSource.getCurrencyExchangeRateById(currencyExchangeRequestEntity.id)
 
 //            if ( currencyExchangeRequestEntityDb != null){
 //                return Right(currencyExchangeRequestEntityDb)
 //            }else{
-                when (networkHandler.isNetworkAvailable()) {
-                    true ->
-                        return request(
+            when (networkHandler.isNetworkAvailable()) {
+                true ->
+                    return request(
                         apiImpl.getFacts(
                             currencyExchangeRequestEntity.accessKey,
                             currencyExchangeRequestEntity.currency,
@@ -63,12 +64,11 @@ interface AboutCanadaRepository {
                             String.empty(),
                             Long.MIN_VALUE,
                             String.empty(),
-                            emptyMap()
-                            ,null
+                            emptyMap(), null
                         )
                     )
-                    false -> return Left(NetworkConnection)
-                }
+                false -> return Left(NetworkConnection)
+            }
 //            }
         }
 
@@ -105,8 +105,7 @@ interface AboutCanadaRepository {
                     true -> {
                         Right(transform((response.body() ?: default)))
                     }
-                    false ->
-                    {
+                    false -> {
                         ServerError.message = "sdf"
                         return Left(ServerError)
                     }

@@ -20,7 +20,7 @@ import com.mvvm_clean.currency_exchange.core.presentation.navigation.Navigator
 import com.mvvm_clean.currency_exchange.features.canada_facts.data.CanadaFactsFailure
 import com.mvvm_clean.currency_exchange.features.canada_facts.data.CurrencyExchangeRequestEntity
 import com.mvvm_clean.currency_exchange.features.canada_facts.presentation.models.CanadaFactsModel
-import com.mvvm_clean.currency_exchange.features.canada_facts.presentation.models.CanadaFactsViewModel
+import com.mvvm_clean.currency_exchange.features.canada_facts.presentation.models.CurrencyRatesViewModel
 import com.mvvm_clean.currency_exchange.features.canada_facts.presentation.models.CurrencyListModel
 import com.mvvm_clean.currency_exchange.features.canada_facts.presentation.ui.adapters.CanadaFactListAdapter
 import com.mvvm_clean.currency_exchange.features.canada_facts.presentation.ui.adapters.CurrencyListAdapter
@@ -35,7 +35,7 @@ class CanadaFactListFragment : BaseFragment() {
 
 
     private val BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout"
-    private lateinit var mCanadaFactsViewModel: CanadaFactsViewModel
+    private lateinit var mCurrencyRatesViewModel: CurrencyRatesViewModel
 
     @Inject
     lateinit var navigator: Navigator
@@ -55,16 +55,16 @@ class CanadaFactListFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
 
-        mCanadaFactsViewModel = viewModel(viewModelFactory) {
+        mCurrencyRatesViewModel = viewModel(viewModelFactory) {
             observe(getCanadaFactLiveData(), ::renderCanadaFactsList)
             failure(failure, ::handleFailure)
         }
-        mCanadaFactsViewModel = viewModel(viewModelFactory) {
+        mCurrencyRatesViewModel = viewModel(viewModelFactory) {
             observe(getCurrencyLiveData(), ::renderCurrencyList)
             failure(failure, ::handleFailure)
         }
 
-        mCanadaFactsViewModel.getIsLoading()?.observe(this, object : Observer<Boolean?> {
+        mCurrencyRatesViewModel.getIsLoading()?.observe(this, object : Observer<Boolean?> {
             override fun onChanged(aBoolean: Boolean?) {
                 if (aBoolean!!) {
                     showProgress()
@@ -75,7 +75,7 @@ class CanadaFactListFragment : BaseFragment() {
         })
 
         // retain this fragment when activity is re-initialized
-        setRetainInstance(true);
+        retainInstance = true
 
         currency.add("EUR")
         currency.add("GBP")
@@ -100,7 +100,7 @@ class CanadaFactListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeView()
-        mCanadaFactsViewModel.getCurrencyList(accessKey)
+        mCurrencyRatesViewModel.getCurrencyList(accessKey)
     }
 
     /**
@@ -120,13 +120,13 @@ class CanadaFactListFragment : BaseFragment() {
         super.onSaveInstanceState(outState)
         outState.putParcelable(
             BUNDLE_RECYCLER_LAYOUT,
-            rv_canadaFactList.getLayoutManager()?.onSaveInstanceState()
+            rv_canadaFactList.layoutManager?.onSaveInstanceState()
         )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        rv_canadaFactList.adapter = null;
+        rv_canadaFactList.adapter = null
     }
     //---
 
@@ -153,7 +153,7 @@ class CanadaFactListFragment : BaseFragment() {
                 } else if (s.length > 12) {
                     tv_wrong_amount.text = getString(R.string.too_large_amount)
                     isError = true
-                } else{
+                } else {
                     val inputDb = Double.parseDouble(s.toString())
                     isError = inputDb <= 0.0
                 }
@@ -230,7 +230,7 @@ class CanadaFactListFragment : BaseFragment() {
             format
         )
         showProgress()
-        mCanadaFactsViewModel.loadCanadaFacts(currencyExchangeRequestEntity)
+        mCurrencyRatesViewModel.loadCanadaFacts(currencyExchangeRequestEntity)
     }
 
     private fun renderCanadaFactsList(canadaFactsModel: CanadaFactsModel?) {
@@ -243,8 +243,8 @@ class CanadaFactListFragment : BaseFragment() {
                 canadaFactListAdapter.collection = currencyWithAmountMap
             }
             rv_canadaFactList.visible()
-        }else{
-            notifyWithAction(canadaFactsModel?.error.info)
+        } else {
+            notifyWithAction(canadaFactsModel.error.info)
         }
         hideProgress()
     }
@@ -277,6 +277,6 @@ class CanadaFactListFragment : BaseFragment() {
             rl_currency_layout_parent.gone()
         }
         if (currencyListModel?.currency != null)
-            currencyListAdapter.collection = currencyListModel?.currency
+            currencyListAdapter.collection = currencyListModel.currency
     }
 }

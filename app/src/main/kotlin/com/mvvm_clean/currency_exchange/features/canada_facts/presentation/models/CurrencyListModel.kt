@@ -10,4 +10,4 @@ data class CurrencyListModel(
     val terms: String,
     val privacy: String,
     val currency: Map<String, String>
-    ) :KParcelable
+) : KParcelable

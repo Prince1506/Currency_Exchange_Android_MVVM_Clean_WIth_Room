@@ -36,6 +36,9 @@ fun launchSilent(
  * }
  * ```
  */
-fun <T> runBlockingSilent(context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> T) {
+fun <T> runBlockingSilent(
+    context: CoroutineContext = EmptyCoroutineContext,
+    block: suspend CoroutineScope.() -> T
+) {
     runBlocking(context, block)
 }

@@ -2,7 +2,7 @@ package com.mvvm_clean.currency_exchange.core.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.mvvm_clean.currency_exchange.features.canada_facts.presentation.models.CanadaFactsViewModel
+import com.mvvm_clean.currency_exchange.features.canada_facts.presentation.models.CurrencyRatesViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -14,7 +14,7 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(CanadaFactsViewModel::class)
-    abstract fun bindsCanadaFactsViewModel(canadaFactsViewModel: CanadaFactsViewModel): ViewModel
+    @ViewModelKey(CurrencyRatesViewModel::class)
+    abstract fun bindsCanadaFactsViewModel(currencyRatesViewModel: CurrencyRatesViewModel): ViewModel
 
 }

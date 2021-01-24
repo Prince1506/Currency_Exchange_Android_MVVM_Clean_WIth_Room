@@ -12,7 +12,7 @@ import javax.inject.Inject
  * where all other screens can be opened. All screens code to launch are controlled here using
  * navigator
  */
-class AboutCanadaActivity : AppCompatActivity() {
+class CurrencyExchangeNavigatorActivity : AppCompatActivity() {
 
     private val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         (application as AboutCanadaApplication).appComponent

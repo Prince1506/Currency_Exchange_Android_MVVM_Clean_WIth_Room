@@ -18,15 +18,16 @@ class Navigator
 
     fun showScreens(context: Context) {
         when (authenticator.userLoggedIn()) {
-            true -> showCanadaFacts(context)
+            true -> showCurrencyExchangeRateScreen(context)
         }
     }
 
-    private fun showCanadaFacts(context: Context) =
+    private fun showCurrencyExchangeRateScreen(context: Context) =
         context.startActivity(
             CanadaFactListActivity.callingIntent(context)
         )
 
+    // Use It when you want to send parcellable object from one screen to another
     class Extras(val transitionSharedElement: View)
 }
 

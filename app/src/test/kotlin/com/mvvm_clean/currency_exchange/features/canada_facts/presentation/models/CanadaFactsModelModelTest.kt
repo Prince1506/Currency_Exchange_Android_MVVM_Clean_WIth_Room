@@ -3,7 +3,7 @@ package com.mvvm_clean.currency_exchange.features.canada_facts.presentation.mode
 import androidx.lifecycle.MutableLiveData
 import com.mvvm_clean.currency_exchange.AndroidTest
 import com.mvvm_clean.currency_exchange.core.domain.functional.Either.Right
-import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CanadaFactsInfo
+import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CurrencyRateInfo
 import com.mvvm_clean.currency_exchange.features.canada_facts.domain.use_cases.GetCanadaFactsInfo
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -13,8 +13,8 @@ import org.junit.Test
 
 class CanadaFactsModelModelTest : AndroidTest() {
 
-    private lateinit var canadaFactsViewModel: CanadaFactsViewModel
-    private lateinit var canadaFactsInfo: CanadaFactsInfo
+    private lateinit var currencyRatesViewModel: CurrencyRatesViewModel
+    private lateinit var currencyRateInfo: CurrencyRateInfo
     private val TITLE_LBL = "title"
     private val DESCRIPTION_LBL = "description"
     private val HREF_LBL = "href"
@@ -26,9 +26,9 @@ class CanadaFactsModelModelTest : AndroidTest() {
 
     @Before
     fun setUp() {
-        canadaFactsViewModel = CanadaFactsViewModel(getCanadaFacts)
+        currencyRatesViewModel = CurrencyRatesViewModel(getCanadaFacts)
 
-        canadaFactsInfo = CanadaFactsInfo(
+        currencyRateInfo = CurrencyRateInfo(
             TITLE_LBL,
             listOf(
                 Quotes(
@@ -43,7 +43,7 @@ class CanadaFactsModelModelTest : AndroidTest() {
             quotes
         )
 
-        factRowModels = canadaFactsInfo.rows.flatMap {
+        factRowModels = currencyRateInfo.rows.flatMap {
 
             listOf(
                 FactRowModel(
@@ -54,7 +54,7 @@ class CanadaFactsModelModelTest : AndroidTest() {
             )
         }
         mutableCanadaLiveData.value = CanadaFactsModel(
-            canadaFactsInfo.title,
+            currencyRateInfo.title,
             factRowModels
         )
     }
@@ -67,13 +67,13 @@ class CanadaFactsModelModelTest : AndroidTest() {
     fun `loading facts should update live data`() {
 
         // Assert
-        coEvery { getCanadaFacts.run(any()) } returns Right(canadaFactsInfo)
+        coEvery { getCanadaFacts.run(any()) } returns Right(currencyRateInfo)
 
         // Act
 //        runBlocking { canadaFactsViewModel.loadCanadaFacts() }
 
         // Verify
-        canadaFactsViewModel.canadaFacts.observeForever {
+        currencyRatesViewModel.canadaFacts.observeForever {
             it.let {
                 it.factRowEntity.size shouldEqualTo 1
                 it.factRowEntity[0].description shouldEqualTo DESCRIPTION_LBL
@@ -94,11 +94,11 @@ class CanadaFactsModelModelTest : AndroidTest() {
 
 
         // Act
-        canadaFactsViewModel.handleFactList(canadaFactsInfo)
+        currencyRatesViewModel.handleFactList(currencyRateInfo)
 
         // Verify
         mutableCanadaLiveData.value shouldEqual CanadaFactsModel(
-            canadaFactsInfo.title,
+            currencyRateInfo.title,
             factRowModels
         )
 

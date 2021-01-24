@@ -28,6 +28,6 @@ class NavigatorTest : AndroidTest() {
 
         navigator.showScreens(context())
         verify(exactly = 1) { authenticator.userLoggedIn() }
-        AboutCanadaActivity::class shouldNavigateTo CanadaFactListActivity::class
+        CurrencyExchangeNavigatorActivity::class shouldNavigateTo CanadaFactListActivity::class
     }
 }

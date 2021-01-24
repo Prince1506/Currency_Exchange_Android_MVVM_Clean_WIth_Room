@@ -17,7 +17,7 @@ class CurrencyListAdapter
     private lateinit var collectionKeys: ArrayList<String>
 
     internal var collection: Map<String, String> by Delegates.observable(emptyMap()) { _, _, _ ->
-        collectionKeys = ArrayList( collection.keys )
+        collectionKeys = ArrayList(collection.keys)
         notifyDataSetChanged()
     }
 

@@ -23,7 +23,7 @@ class AboutCanadaApiImpl
         source: String,
         format: Int
     ): Call<CanadaFactsResponseEntity> {
-        return aboutCanadaApi.getFacts(accessKey,currency, source, format)
+        return aboutCanadaApi.getFacts(accessKey, currency, source, format)
     }
 
     override fun getCurrencyList(

@@ -12,13 +12,14 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class GetCanadaFactsInfoTest : UnitTest() {
+class GetCurrencyRateInfoTest : UnitTest() {
 
     private lateinit var getCanadaFactsInfo: GetCanadaFactsInfo
-    private lateinit var canadaFactList: CanadaFactsInfo
+    private lateinit var canadaFactList: CurrencyRateInfo
     private val TITLE_LBL = "title"
     private val DESCRIPTION_LBL = "description"
     private val HREF_LBL = "href"
+
     @MockK
     private lateinit var aboutCanadaRepository: AboutCanadaRepository
 
@@ -26,7 +27,7 @@ class GetCanadaFactsInfoTest : UnitTest() {
     fun setUp() {
 
         getCanadaFactsInfo = GetCanadaFactsInfo(aboutCanadaRepository)
-        canadaFactList = CanadaFactsInfo(
+        canadaFactList = CurrencyRateInfo(
             TITLE_LBL,
             listOf(
                 Quotes(
@@ -40,7 +41,7 @@ class GetCanadaFactsInfoTest : UnitTest() {
             timestamp,
             quotes
         )
-        every { aboutCanadaRepository.getFacts() } returns Right(CanadaFactsInfo.empty)
+        every { aboutCanadaRepository.getFacts() } returns Right(CurrencyRateInfo.empty)
     }
 
     /**

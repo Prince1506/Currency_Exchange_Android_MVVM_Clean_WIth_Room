@@ -2,8 +2,7 @@ package com.mvvm_clean.currency_exchange.core.source.disk
 
 import android.app.Application
 import android.content.Context
-import com.mvvm_clean.currency_exchange.AboutCanadaApplication
-import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CanadaFactsInfo
+import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CurrencyRateInfo
 import javax.inject.Inject
 
 
@@ -17,13 +16,9 @@ class DiskDataSource
         database = Database.createInstance(appContext as Application)
     }
 
-     fun insertAllCurrencyExchangeRates(currentTaskEntity: CanadaFactsInfo) =
-        database?.TaskListDao()?.insertAllCurrencyExchangeRates(currentTaskEntity)
+    fun insertAllCurrencyExchangeRates(currentTaskEntity: CurrencyRateInfo) =
+        database?.CurrencyRateDao()?.insertAllCurrencyRates(currentTaskEntity)
 
-    suspend fun getAllCurrencyExchangeRates() =
-        database?.TaskListDao()?.getAllCurrencyExchangeRates()
-
-
-     fun getCurrencyExchangeRateById(id: Int) =
-        database?.TaskListDao()?.getCurrencyExchangeRateById(id)
+    fun getCurrencyExchangeRateById(id: Int) =
+        database?.CurrencyRateDao()?.getCurrencyRateById(id)
 }

@@ -12,7 +12,7 @@ data class CurrencyListResponseEntity(
     private val terms: String,
     private val privacy: String,
     private val currencies: Map<String, String>
-    ) {
+) {
 
-    fun toFacts() = CurrencyListInfo(success, terms, privacy,  currencies)
+    fun toFacts() = CurrencyListInfo(success, terms, privacy, currencies)
 }

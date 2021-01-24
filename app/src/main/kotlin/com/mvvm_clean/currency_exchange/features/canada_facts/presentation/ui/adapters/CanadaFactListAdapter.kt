@@ -16,7 +16,7 @@ class CanadaFactListAdapter
 
     private lateinit var collectionKeys: ArrayList<String>
     internal var collection: Map<String, Double> by Delegates.observable(emptyMap()) { _, _, _ ->
-        collectionKeys = ArrayList( collection.keys )
+        collectionKeys = ArrayList(collection.keys)
         notifyDataSetChanged()
     }
 
@@ -34,7 +34,7 @@ class CanadaFactListAdapter
         fun bind(factRowModel: String) {
 
             itemView.tv_list_item_heading.text = factRowModel +
-                    itemView.getString(R.string.space)+
+                    itemView.getString(R.string.space) +
                     collection.get(factRowModel).toString()
         }
     }

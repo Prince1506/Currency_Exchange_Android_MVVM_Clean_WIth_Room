@@ -8,9 +8,9 @@ import javax.inject.Inject
 class GetCurrencyListInfo
 @Inject constructor(
     private val aboutCanadaRepository: AboutCanadaRepository
-    ) :UseCase<CurrencyListInfo, String>() {
+) : UseCase<CurrencyListInfo, String>() {
 
     override suspend fun run(params: String) =
-            aboutCanadaRepository.getCurrencyList( params )
+        aboutCanadaRepository.getCurrencyList(params)
 
 }

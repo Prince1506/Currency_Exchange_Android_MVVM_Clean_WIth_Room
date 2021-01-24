@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
-data class Error (
+data class Error(
     val code: String,
     val info: String
-): KParcelable
+) : KParcelable

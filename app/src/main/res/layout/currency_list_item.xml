@@ -8,13 +8,13 @@
         android:id="@+id/tv_currency_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/text_20"
         android:layout_marginLeft="40dp"
-        android:layout_marginRight="@dimen/text_30"
         android:layout_marginTop="@dimen/text_20"
+        android:layout_marginRight="@dimen/text_30"
+        android:layout_marginBottom="@dimen/text_20"
         android:textColor="@color/white"
-        android:textStyle="italic"
-        android:textSize="@dimen/text_15" />
+        android:textSize="@dimen/text_15"
+        android:textStyle="italic" />
 
     <View
         android:id="@+id/currency_line"
@@ -23,5 +23,5 @@
         android:layout_marginLeft="@dimen/text_15"
         android:layout_marginRight="@dimen/text_15"
         android:background="@color/silver"
-        android:orientation="vertical"/>
+        android:orientation="vertical" />
 </LinearLayout>

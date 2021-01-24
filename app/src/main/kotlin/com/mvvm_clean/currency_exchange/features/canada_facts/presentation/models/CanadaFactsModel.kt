@@ -14,4 +14,4 @@ data class CanadaFactsModel(
     val timestamp: Long,
     val quotes: Map<String, Double>,
     val error: Error? = null
-    ) :KParcelable
+) : KParcelable

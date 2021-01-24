@@ -16,10 +16,10 @@
             android:id="@+id/toolbar_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/dash"
             android:fontFamily="sans-serif"
+            android:gravity="center"
             android:padding="@dimen/margin_2dp"
+            android:text="@string/dash"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold" />

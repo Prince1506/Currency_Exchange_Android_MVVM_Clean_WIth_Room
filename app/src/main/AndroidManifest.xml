@@ -17,7 +17,7 @@
 
         <!--Activities-->
         <activity
-            android:name="com.mvvm_clean.currency_exchange.core.presentation.navigation.AboutCanadaActivity"
+            android:name="com.mvvm_clean.currency_exchange.core.presentation.navigation.CurrencyExchangeNavigatorActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Translucent">
@@ -29,8 +29,8 @@
 
         <activity
             android:name="com.mvvm_clean.currency_exchange.features.canada_facts.presentation.ui.activities.CanadaFactListActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/canada_fact_screen_title"></activity>
+            android:label="@string/canada_fact_screen_title"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

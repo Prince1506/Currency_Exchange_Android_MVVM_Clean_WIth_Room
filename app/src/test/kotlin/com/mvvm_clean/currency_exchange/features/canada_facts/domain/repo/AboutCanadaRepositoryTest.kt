@@ -7,7 +7,7 @@ import com.mvvm_clean.currency_exchange.core.domain.exception.Failure.ServerErro
 import com.mvvm_clean.currency_exchange.core.domain.functional.Either
 import com.mvvm_clean.currency_exchange.core.domain.functional.Either.Right
 import com.mvvm_clean.currency_exchange.features.canada_facts.data.CanadaFactsResponseEntity
-import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CanadaFactsInfo
+import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CurrencyRateInfo
 import com.mvvm_clean.currency_exchange.features.canada_facts.domain.api.AboutCanadaApiImpl
 import io.mockk.Called
 import io.mockk.every
@@ -30,11 +30,14 @@ class AboutCanadaRepositoryTest : UnitTest() {
 
     @MockK
     private lateinit var networkHandler: NetworkHandler
+
     @MockK
     private lateinit var service: AboutCanadaApiImpl
     private lateinit var canadaFactsResponseEntity: CanadaFactsResponseEntity
+
     @MockK
     private lateinit var canadaFactsResponseCall: Call<CanadaFactsResponseEntity>
+
     @MockK
     private lateinit var canadaFactsResponse: Response<CanadaFactsResponseEntity>
 
@@ -70,7 +73,7 @@ class AboutCanadaRepositoryTest : UnitTest() {
         val canadaFacts = networkRepository.getFacts()
 
         //Verify
-        canadaFacts shouldEqual Right(CanadaFactsInfo.empty)
+        canadaFacts shouldEqual Right(CurrencyRateInfo.empty)
         verify(exactly = 1) { service.getFacts() }
     }
 
