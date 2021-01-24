@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name="com.mvvm_clean.currency_exchange.features.canada_facts.presentation.ui.activities.CanadaFactListActivity"
+            android:name="com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.ui.activities.CanadaFactListActivity"
             android:label="@string/canada_fact_screen_title"
             android:screenOrientation="portrait"></activity>
 

@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CurrencyRateInfo
-import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.tableName
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.CurrencyRateInfo
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.tableName
 
 @Dao
 interface CurrencyRateListDao {

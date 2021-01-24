@@ -3,7 +3,7 @@ package com.mvvm_clean.currency_exchange.core.source.disk.typeConverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CurrencyRateInfo
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.CurrencyRateInfo
 import java.util.*
 
 class ListConverter {

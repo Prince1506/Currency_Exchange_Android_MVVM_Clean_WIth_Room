@@ -2,7 +2,7 @@ package com.mvvm_clean.currency_exchange.core.presentation.navigation
 
 import android.content.Context
 import android.view.View
-import com.mvvm_clean.currency_exchange.features.canada_facts.presentation.ui.activities.CanadaFactListActivity
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.ui.activities.CanadaFactListActivity
 import com.mvvm_clean.currency_exchange.features.login.domain.Authenticator
 import javax.inject.Inject
 import javax.inject.Singleton

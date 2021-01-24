@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.mvvm_clean.currency_exchange.core.source.disk.dao.CurrencyRateListDao
 import com.mvvm_clean.currency_exchange.core.source.disk.typeConverter.MapConverters
 import com.mvvm_clean.currency_exchange.core.source.disk.typeConverter.ListConverter
-import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CurrencyRateInfo
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.CurrencyRateInfo
 
 @Database(
     entities = [CurrencyRateInfo::class], version = 2, exportSchema = false

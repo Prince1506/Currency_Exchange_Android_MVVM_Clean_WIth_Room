@@ -2,7 +2,7 @@ package com.mvvm_clean.currency_exchange.core.di
 
 import com.mvvm_clean.currency_exchange.App
 import com.mvvm_clean.currency_exchange.BuildConfig
-import com.mvvm_clean.currency_exchange.features.canada_facts.domain.repo.AboutCanadaRepository
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.repo.AboutCanadaRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
