@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Base colors-->
+    <color name="colorPrimary">#000000</color>
+    <color name="colorAccent">#fff</color>
+    <color name="colorSecondary">#7f1a18</color>
+    <color name="colorTextPrimary">#FFFFFF</color>
+    <color name="colorTextSecondary">#7f1a18</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="semi_transparent">#BB000000</color>
+    <color name="translucentBackground">#ED000000</color>
+    <color name="list_item_heading_color">#0000ff</color>
+    <color name="black">#000</color>
+    <color name="white">#fff</color>
+    <color name="silver">#c0c0c0</color>
+
+    <color name="default_status">#FFD301</color>
+    <color name="transparent_white">#B3ffffff</color>
+    <color name="green">#00ff00</color>
+</resources>

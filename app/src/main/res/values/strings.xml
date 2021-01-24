@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Currency rates</string>
+    <string name="http">http</string>
+    <string name="https">https</string>
+    <string name="comma">,</string>
+    <string name="space">" "</string>
+    <string name="select_currency">Select Currency</string>
+    <string name="select_currency_list">Please select currency from list</string>
+    <string name="wrong_amount">Amount format is invalid</string>
+    <string name="enter_amount_hint">Please enter amount</string>
+    <string name="blank_amount">You have not entered amount</string>
+    <string name="too_large_amount">Amount entered is too large.</string>
+</resources>

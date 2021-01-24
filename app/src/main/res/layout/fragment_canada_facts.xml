@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blur_bg">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_amount"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/margin_15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_rect_bg"
+        android:backgroundTint="@color/black"
+        android:backgroundTintMode="multiply"
+        app:layout_constraintBottom_toTopOf="@+id/rl_currency_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <EditText
+            android:id="@+id/ed_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/transparent"
+            android:inputType="number"
+            android:maxLength="11"
+            android:maxLines="1"
+            android:paddingStart="37dp"
+            android:paddingEnd="@dimen/text_15"
+            android:singleLine="true"
+            android:textColor="@color/default_status"
+            android:textColorHint="@color/white"
+            android:textSize="@dimen/text_15"
+            tools:ignore="SpUsage"
+            tools:targetApi="lollipop" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_wrong_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_amount"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="@dimen/text_10"
+        android:text="@string/wrong_amount"
+        android:textColor="@android:color/holo_red_light"
+        android:visibility="visible" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_currency_parent"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/margin_15dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_rect_bg"
+        android:backgroundTint="@color/black"
+        android:backgroundTintMode="multiply"
+        app:layout_constraintBottom_toTopOf="@+id/srl_canada_fact_pullToRefresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_wrong_amount">
+
+
+        <TextView
+            android:id="@+id/tv_currency"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="@dimen/text_20"
+            android:background="@color/transparent"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:paddingStart="37dp"
+            android:paddingEnd="25dp"
+            android:singleLine="true"
+            android:text="@string/dash"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="@dimen/text_15"
+            tools:ignore="SpUsage"
+            tools:targetApi="lollipop" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_dropdown"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/text_15"
+                android:src="@drawable/collapsedown"
+                tools:ignore="ContentDescription" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_check_currency_rates_parent_btn"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_outline_white"
+        app:layout_constraintEnd_toEndOf="@+id/rl_currency_parent"
+        app:layout_constraintStart_toStartOf="@+id/rl_currency_parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_currency_parent">
+
+
+        <TextView
+            android:id="@+id/tv_check_currency_rates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="30dp"
+            android:drawablePadding="20dp"
+            android:elevation="@dimen/shadow"
+            android:paddingRight="27dp"
+            android:text="Check Exchange Rates"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="italic" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/log_arrow"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@id/tv_check_currency_rates"
+                android:src="@drawable/right_arrow" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_canadaFactList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@color/transparent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_check_currency_rates_parent_btn" />
+
+    <include
+        layout="@layout/layout_currency_list_drop_down"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
