@@ -46,8 +46,8 @@ class CanadaFactListFragment : BaseFragment() {
     @Inject
     lateinit var canadaFactListAdapter: CanadaFactListAdapter
 
-    val accessKey = "27e5e4cdf76b6779d5772d38e3617790"
-    val currency = ArrayList<String>()
+    private val accessKey = "9d7089948c7b2abf5f94c917434a3429"
+    private val currency = ArrayList<String>()
 
     // Override Methods
     override fun layoutId() = R.layout.fragment_canada_facts
@@ -155,11 +155,7 @@ class CanadaFactListFragment : BaseFragment() {
                     isError = true
                 } else{
                     val inputDb = Double.parseDouble(s.toString())
-                    if (inputDb <= 0.0){
-                        isError = true
-                    }else {
-                        isError = false
-                    }
+                    isError = inputDb <= 0.0
                 }
 
 
@@ -222,7 +218,7 @@ class CanadaFactListFragment : BaseFragment() {
     }
 
     private fun loadCanadaFactsList() {
-        val accessKey = "27e5e4cdf76b6779d5772d38e3617790"
+        val accessKey = "9d7089948c7b2abf5f94c917434a3429"
         val source = tv_currency.text.toString()
         val format = 1
 
@@ -238,15 +234,18 @@ class CanadaFactListFragment : BaseFragment() {
     }
 
     private fun renderCanadaFactsList(canadaFactsModel: CanadaFactsModel?) {
-        val amount = Double.parseDouble(ed_amount.text.toString())
 
-        val currencyWithAmountMap = canadaFactsModel?.quotes?.mapValues { it.value * amount }
-        if (currencyWithAmountMap != null) {
-            canadaFactListAdapter.collection = currencyWithAmountMap
+        if (canadaFactsModel?.error == null) {
+            val amount = Double.parseDouble(ed_amount.text.toString())
+
+            val currencyWithAmountMap = canadaFactsModel?.quotes?.mapValues { it.value * amount }
+            if (currencyWithAmountMap != null) {
+                canadaFactListAdapter.collection = currencyWithAmountMap
+            }
+            rv_canadaFactList.visible()
+        }else{
+            notifyWithAction(canadaFactsModel?.error.info)
         }
-
-
-        rv_canadaFactList.visible()
         hideProgress()
     }
 
@@ -266,7 +265,7 @@ class CanadaFactListFragment : BaseFragment() {
     private fun renderFailure(@StringRes message: Int) {
         rv_canadaFactList.gone()
         hideProgress()
-        notifyWithAction(message)
+        notifyWithAction(getString(message))
     }
 
 

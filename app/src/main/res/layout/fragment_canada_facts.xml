@@ -89,7 +89,7 @@
             android:paddingStart="37dp"
             android:paddingEnd="25dp"
             android:singleLine="true"
-            android:text="@string/dash"
+            android:text="@string/usd"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="@dimen/text_15"

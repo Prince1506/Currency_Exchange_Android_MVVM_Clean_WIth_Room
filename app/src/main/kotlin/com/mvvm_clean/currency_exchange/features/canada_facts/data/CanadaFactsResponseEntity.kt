@@ -1,18 +1,29 @@
 package com.mvvm_clean.currency_exchange.features.canada_facts.data
 
 import androidx.annotation.Keep
+import com.mvvm_clean.currency_exchange.core.data.Error
 import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CanadaFactsInfo
 
 // Response for fact list API
 @Keep
 data class CanadaFactsResponseEntity(
-    private val success: String,
-    private val terms: String,
-    private val privacy: String,
-    private val timestamp: Long,
-    private val source: String,
-    private val quotes: String
+    private var success: String?  = null,
+    private var terms: String? = null,
+    private var privacy: String? = null,
+    private var timestamp: Long? = null,
+    private var source: String? = null,
+    private var quotes: Map<String?, Double?>? = null,
+    private var error:Error ?= null
     ) {
 
-    fun toFacts() = CanadaFactsInfo(0, success, terms, privacy, source, timestamp, quotes)
+    fun toFacts() = CanadaFactsInfo(
+        0,
+        success,
+        terms,
+        privacy,
+        source,
+        timestamp,
+        quotes,
+        error
+    )
 }

@@ -95,12 +95,13 @@ class CanadaFactsViewModel @Inject constructor(
 
         isProgressLoading.value = false
         mutableCanadaLiveData.value = CanadaFactsModel(
-            canadaFactsInfo.success,
-            canadaFactsInfo.terms,
-            canadaFactsInfo.privacy,
-            canadaFactsInfo.source,
-            canadaFactsInfo.timestamp,
-            emptyMap()
+            canadaFactsInfo.successNotNull,
+            canadaFactsInfo.termsNotNull,
+            canadaFactsInfo.privacyNotNull,
+            canadaFactsInfo.sourceNotNull,
+            canadaFactsInfo.timestampNotNull,
+            canadaFactsInfo.quotesNotNull,
+            canadaFactsInfo.error
         )
     }
 

@@ -51,7 +51,7 @@ abstract class BaseFragment : Fragment() {
     private fun progressStatus(viewStatus: Int) =
         with(activity) { if (this is BaseActivity) this.pb_fact_list.visibility = viewStatus }
 
-    internal fun notifyWithAction(@StringRes message: Int) {
+    internal fun notifyWithAction( message: String) {
         val snackBar = Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT)
         snackBar.show()
     }

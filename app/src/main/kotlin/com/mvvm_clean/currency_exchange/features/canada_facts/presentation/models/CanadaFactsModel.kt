@@ -1,6 +1,7 @@
 package com.mvvm_clean.currency_exchange.features.canada_facts.presentation.models
 
 import com.mvvm_clean.currency_exchange.core.base.KParcelable
+import com.mvvm_clean.currency_exchange.core.data.Error
 import kotlinx.android.parcel.Parcelize
 
 // Canada fact list model to be shown on UI
@@ -11,5 +12,6 @@ data class CanadaFactsModel(
     val privacy: String,
     val source: String,
     val timestamp: Long,
-    val quotes: Map<String, Double>
+    val quotes: Map<String, Double>,
+    val error: Error? = null
     ) :KParcelable

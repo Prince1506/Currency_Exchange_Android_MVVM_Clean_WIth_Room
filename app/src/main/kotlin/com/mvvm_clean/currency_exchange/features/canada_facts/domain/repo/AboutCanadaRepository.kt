@@ -41,9 +41,9 @@ interface AboutCanadaRepository {
 
             val currencyExchangeRequestEntityDb = diskDataSource.getCurrencyExchangeRateById(currencyExchangeRequestEntity.id)
 
-            if (currencyExchangeRequestEntityDb != null){
-                return Right(currencyExchangeRequestEntityDb)
-            }else{
+//            if ( currencyExchangeRequestEntityDb != null){
+//                return Right(currencyExchangeRequestEntityDb)
+//            }else{
                 when (networkHandler.isNetworkAvailable()) {
                     true ->
                         return request(
@@ -63,12 +63,13 @@ interface AboutCanadaRepository {
                             String.empty(),
                             Long.MIN_VALUE,
                             String.empty(),
-                            ""
+                            emptyMap()
+                            ,null
                         )
                     )
                     false -> return Left(NetworkConnection)
                 }
-            }
+//            }
         }
 
         override fun getCurrencyList(
@@ -104,7 +105,12 @@ interface AboutCanadaRepository {
                     true -> {
                         Right(transform((response.body() ?: default)))
                     }
-                    false -> Left(ServerError)
+                    false ->
+                    {
+                        ServerError.message = "sdf"
+                        return Left(ServerError)
+                    }
+
                 }
             } catch (exception: Throwable) {
 

@@ -10,4 +10,5 @@
     <string name="enter_amount_hint">Please enter amount</string>
     <string name="blank_amount">You have not entered amount</string>
     <string name="too_large_amount">Amount entered is too large.</string>
+    <string name="usd">usd</string>
 </resources>

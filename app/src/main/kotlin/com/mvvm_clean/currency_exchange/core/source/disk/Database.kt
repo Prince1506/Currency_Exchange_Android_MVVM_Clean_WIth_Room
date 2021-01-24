@@ -13,7 +13,7 @@ import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.CanadaFa
 import com.mvvm_clean.currency_exchange.features.canada_facts.data.repo.TaskResponseEntity
 
 @Database(
-    entities = [CanadaFactsInfo::class], version = 1
+    entities = [CanadaFactsInfo::class], version = 2, exportSchema = false
 )
 @TypeConverters(
     TaskEntityConverter::class,

@@ -11,7 +11,7 @@ import retrofit2.http.Query
  */
 internal interface AboutCanadaApi {
     companion object {
-        private const val FACTS = "/api/live"
+        private const val FACTS = "/live"
         private const val CURRENCY_LIST = "/list"
     }
 
