@@ -11,4 +11,6 @@
     <string name="blank_amount">You have not entered amount</string>
     <string name="too_large_amount">Amount entered is too large.</string>
     <string name="usd">usd</string>
+    <string name="showing_dummy_currencies">To see currency rate from API, Please select USD currency. Free account user can only select source currency as USD. As per client requirement when there is no currency data available, we need to calculate currency rate in app. So doing it for all un available currencies and showing dummy data</string>
+    <string name="dummy_currency_list_title">Dummy Currency List</string>
 </resources>

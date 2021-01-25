@@ -11,7 +11,7 @@ then am not showing that item on screen
 3. I had use Robolectric library and this library has issue right now which
 could be fixed by using JaCoco as Code Coverage inside android studio.
 
-If you don't set it then one test will fail inside CanadaFactsViewModelTest only if you run
+If you don't set it then one test will fail inside CurrencyFactsViewModelTest only if you run
 test coverage for all modules combinely if you just run test for all modules without
 coverage then it will not fail. This issue is logged inside Robolectric library and
 you can check it here

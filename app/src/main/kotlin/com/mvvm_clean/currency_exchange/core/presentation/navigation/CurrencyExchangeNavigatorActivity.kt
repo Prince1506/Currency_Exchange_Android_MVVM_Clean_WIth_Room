@@ -2,7 +2,7 @@ package com.mvvm_clean.currency_exchange.core.presentation.navigation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.mvvm_clean.currency_exchange.AboutCanadaApplication
+import com.mvvm_clean.currency_exchange.CurrencyRateCalculatorApplication
 import com.mvvm_clean.currency_exchange.core.di.ApplicationComponent
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class CurrencyExchangeNavigatorActivity : AppCompatActivity() {
 
     private val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
-        (application as AboutCanadaApplication).appComponent
+        (application as CurrencyRateCalculatorApplication).appComponent
     }
 
     @Inject

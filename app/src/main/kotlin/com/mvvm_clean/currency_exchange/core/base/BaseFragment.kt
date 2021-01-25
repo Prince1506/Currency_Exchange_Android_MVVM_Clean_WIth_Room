@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
-import com.mvvm_clean.currency_exchange.AboutCanadaApplication
+import com.mvvm_clean.currency_exchange.CurrencyRateCalculatorApplication
 import com.mvvm_clean.currency_exchange.core.di.ApplicationComponent
 import com.mvvm_clean.currency_exchange.core.domain.extension.viewContainer
 import kotlinx.android.synthetic.main.activity_layout.*
@@ -21,7 +21,7 @@ import javax.inject.Inject
 abstract class BaseFragment : Fragment() {
 
     val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
-        (activity?.application as AboutCanadaApplication).appComponent
+        (activity?.application as CurrencyRateCalculatorApplication).appComponent
     }
 
     @Inject
@@ -51,7 +51,7 @@ abstract class BaseFragment : Fragment() {
         with(activity) { if (this is BaseActivity) this.pb_fact_list.visibility = viewStatus }
 
     internal fun notifyWithAction(message: String) {
-        val snackBar = Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT)
+        val snackBar = Snackbar.make(viewContainer, message, Snackbar.LENGTH_LONG)
         snackBar.show()
     }
 }

@@ -3,7 +3,7 @@ package com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen
 import androidx.lifecycle.MutableLiveData
 import com.mvvm_clean.currency_exchange.AndroidTest
 import com.mvvm_clean.currency_exchange.core.domain.functional.Either.Right
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.CurrencyRateInfo
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.models.CurrencyRateInfo
 import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.use_cases.GetCanadaFactsInfo
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

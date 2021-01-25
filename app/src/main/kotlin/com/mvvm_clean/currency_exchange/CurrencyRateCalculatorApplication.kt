@@ -5,7 +5,7 @@ import com.mvvm_clean.currency_exchange.core.di.ApplicationModule
 import com.mvvm_clean.currency_exchange.core.di.DaggerApplicationComponent
 import javax.inject.Inject
 
-class AboutCanadaApplication
+class CurrencyRateCalculatorApplication
 @Inject constructor() : App() {
 
     val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {

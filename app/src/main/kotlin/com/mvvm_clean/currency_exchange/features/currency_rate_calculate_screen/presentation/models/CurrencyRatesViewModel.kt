@@ -6,13 +6,15 @@ import androidx.lifecycle.viewModelScope
 import com.mvvm_clean.currency_exchange.core.base.BaseViewModel
 import com.mvvm_clean.currency_exchange.core.domain.exception.Failure
 import com.mvvm_clean.currency_exchange.core.source.disk.DiskDataSource
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.CurrencyExchangeRequestEntity
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.CurrencyRateInfo
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.CurrencyListInfo
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.use_cases.GetCanadaFactsInfo
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models.CurrencyExchangeRequestEntity
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models.CurrencyListInfo
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.constants.IAPIConstants
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.models.CurrencyRateInfo
 import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.use_cases.GetCurrencyListInfo
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.use_cases.GetCurrencyRateInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 /**
@@ -20,7 +22,7 @@ import javax.inject.Inject
  * It will interact with both data as well as UI layer
  */
 class CurrencyRatesViewModel @Inject constructor(
-    private val getCanadaFactsInfo: GetCanadaFactsInfo,
+    private val getCurrencyRateInfo: GetCurrencyRateInfo,
     private val getCurrencyListInfo: GetCurrencyListInfo,
     private val diskDataSource: DiskDataSource
 ) : BaseViewModel() {
@@ -48,12 +50,12 @@ class CurrencyRatesViewModel @Inject constructor(
     }
 
 
-    fun loadCanadaFacts(currencyExchangeRequestEntity: CurrencyExchangeRequestEntity) {
+    fun loadCurrencyRateList(currencyExchangeRequestEntity: com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models.CurrencyExchangeRequestEntity) {
         isProgressLoading.value = true
-        getCanadaFactsInfo(currencyExchangeRequestEntity) {
+        getCurrencyRateInfo(currencyExchangeRequestEntity) {
             it.fold(
                 ::handleApiListFailure,
-                ::handleFactList
+                ::handleCurrencyRateList
             )
         }
     }
@@ -66,20 +68,14 @@ class CurrencyRatesViewModel @Inject constructor(
 
     private fun handleApiListFailure(failure: Failure) {
         super.handleFailure(failure)
-        viewModelScope.launch(Dispatchers.IO) {
-            insertIntoDb()
-        }
-
         isProgressLoading.value = false
     }
 
-    private suspend fun insertIntoDb() {
-        diskDataSource.insertAllCurrencyExchangeRates(CurrencyRateInfo.empty)
-    }
 
-
-    fun handleFactList(currencyRateInfo: CurrencyRateInfo) {
+    private fun handleCurrencyRateList(currencyRateInfo: CurrencyRateInfo) {
         viewModelScope.launch(Dispatchers.IO) {
+            currencyRateInfo.timestampNotNull = System.currentTimeMillis()
+            currencyRateInfo.timestamp = System.currentTimeMillis()
             diskDataSource.insertAllCurrencyExchangeRates(currencyRateInfo)
 
         }
@@ -105,4 +101,31 @@ class CurrencyRatesViewModel @Inject constructor(
             currencyListInfo.currencies
         )
     }
+
+    suspend fun getCurrencyRatePojoFromDb(source: String) =
+        runBlocking(Dispatchers.IO) {
+
+            val currencyExchangeRequestEntity =  CurrencyExchangeRequestEntity(
+                0,
+                IAPIConstants.accessKeyVal,
+                IAPIConstants.currenciesToShow,
+                source,
+                IAPIConstants.jsonSyntax
+            )
+
+            val currencyExchangeResponseEntityInDb =
+                diskDataSource.getCurrencyExchangeRateById(IAPIConstants.currencyRateId)
+
+            if (currencyExchangeResponseEntityInDb != null) {
+
+                var timeDiffInSec =
+                    (System.currentTimeMillis() - currencyExchangeResponseEntityInDb.timestampNotNull) / 1000
+
+                currencyExchangeRequestEntity.isTimeExpired =
+                    IAPIConstants.screenRefreshTimeInSec < timeDiffInSec
+            }
+            currencyExchangeRequestEntity
+        }
+
+
 }

@@ -10,12 +10,12 @@ import com.mvvm_clean.currency_exchange.core.domain.functional.Either
 import com.mvvm_clean.currency_exchange.core.domain.functional.Either.Left
 import com.mvvm_clean.currency_exchange.core.domain.functional.Either.Right
 import com.mvvm_clean.currency_exchange.core.source.disk.DiskDataSource
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.CanadaFactsResponseEntity
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.CurrencyExchangeRequestEntity
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.CurrencyListResponseEntity
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.CurrencyRateInfo
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.CurrencyListInfo
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.api.AboutCanadaApiImpl
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models.CurrencyExchangeRequestEntity
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models.CurrencyListInfo
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models.CurrencyListResponseEntity
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models.CurrencyRateResponseEntity
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.api.CurrencyRateApiImpl
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.models.CurrencyRateInfo
 import retrofit2.Call
 import javax.inject.Inject
 
@@ -25,14 +25,14 @@ import javax.inject.Inject
 interface AboutCanadaRepository {
 
     fun getFacts(
-        currencyExchangeRequestEntity: CurrencyExchangeRequestEntity,
+        currencyExchangeRequestEntity: com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models.CurrencyExchangeRequestEntity,
     ): Either<Failure, CurrencyRateInfo>
 
     class Network
     @Inject constructor(
         private val networkHandler: NetworkHandler,
         private val diskDataSource: DiskDataSource,
-        private val apiImpl: AboutCanadaApiImpl
+        private val apiImpl: CurrencyRateApiImpl
     ) : AboutCanadaRepository {
 
         override fun getFacts(
@@ -42,34 +42,34 @@ interface AboutCanadaRepository {
             val currencyExchangeRequestEntityDb =
                 diskDataSource.getCurrencyExchangeRateById(currencyExchangeRequestEntity.id)
 
-//            if ( currencyExchangeRequestEntityDb != null){
-//                return Right(currencyExchangeRequestEntityDb)
-//            }else{
-            when (networkHandler.isNetworkAvailable()) {
-                true ->
-                    return request(
-                        apiImpl.getFacts(
-                            currencyExchangeRequestEntity.accessKey,
-                            currencyExchangeRequestEntity.currency,
-                            currencyExchangeRequestEntity.source,
-                            currencyExchangeRequestEntity.format
-                        ),
-                        {
-                            it.toFacts()
+            if (currencyExchangeRequestEntityDb != null && !currencyExchangeRequestEntity.isTimeExpired) {
+                return Right(currencyExchangeRequestEntityDb)
+            } else {
+                when (networkHandler.isNetworkAvailable()) {
+                    true ->
+                        return request(
+                            apiImpl.getFacts(
+                                currencyExchangeRequestEntity.accessKey,
+                                currencyExchangeRequestEntity.currency,
+                                currencyExchangeRequestEntity.source,
+                                currencyExchangeRequestEntity.format
+                            ),
+                            {
+                                it.toFacts()
 
-                        },
-                        CanadaFactsResponseEntity(
-                            String.empty(),
-                            String.empty(),
-                            String.empty(),
-                            Long.MIN_VALUE,
-                            String.empty(),
-                            emptyMap(), null
+                            },
+                            CurrencyRateResponseEntity(
+                                String.empty(),
+                                String.empty(),
+                                String.empty(),
+                                Long.MIN_VALUE,
+                                String.empty(),
+                                emptyMap(), null
+                            )
                         )
-                    )
-                false -> return Left(NetworkConnection)
+                    false -> return Left(NetworkConnection)
+                }
             }
-//            }
         }
 
         override fun getCurrencyList(

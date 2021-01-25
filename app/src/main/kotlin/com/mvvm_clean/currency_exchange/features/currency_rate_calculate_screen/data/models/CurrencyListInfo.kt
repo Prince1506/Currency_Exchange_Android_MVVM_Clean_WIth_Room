@@ -1,9 +1,9 @@
-package com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo
+package com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models
 
 import com.mvvm_clean.currency_exchange.core.domain.extension.empty
 
 /**
- *  Canada fact list response is mapped to this pojo for handling business logic
+ *  Currency Rate list response is mapped to this pojo for handling business logic
  */
 
 data class CurrencyListInfo(

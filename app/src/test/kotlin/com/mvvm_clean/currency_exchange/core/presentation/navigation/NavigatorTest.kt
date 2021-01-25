@@ -1,7 +1,6 @@
 package com.mvvm_clean.currency_exchange.core.presentation.navigation
 
 import com.mvvm_clean.currency_exchange.AndroidTest
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.ui.activities.CanadaFactListActivity
 import com.mvvm_clean.currency_exchange.features.login.domain.Authenticator
 import com.mvvm_clean.currency_exchange.shouldNavigateTo
 import io.mockk.every
@@ -28,6 +27,6 @@ class NavigatorTest : AndroidTest() {
 
         navigator.showScreens(context())
         verify(exactly = 1) { authenticator.userLoggedIn() }
-        CurrencyExchangeNavigatorActivity::class shouldNavigateTo CanadaFactListActivity::class
+        CurrencyExchangeNavigatorActivity::class shouldNavigateTo CurrencyRateListActivity::class
     }
 }

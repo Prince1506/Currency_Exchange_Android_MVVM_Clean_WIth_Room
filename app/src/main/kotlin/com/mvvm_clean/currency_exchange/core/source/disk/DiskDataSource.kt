@@ -2,7 +2,7 @@ package com.mvvm_clean.currency_exchange.core.source.disk
 
 import android.app.Application
 import android.content.Context
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.CurrencyRateInfo
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.models.CurrencyRateInfo
 import javax.inject.Inject
 
 

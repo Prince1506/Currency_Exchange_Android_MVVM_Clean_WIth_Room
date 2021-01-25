@@ -1,4 +1,4 @@
-package com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo
+package com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.models
 
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -8,7 +8,7 @@ import com.mvvm_clean.currency_exchange.core.domain.extension.empty
 import com.mvvm_clean.currency_exchange.core.domain.extension.isEmptyOrNull
 
 /**
- *  Canada fact list response is mapped to this pojo for handling business logic
+ *  Currency Rate list response is mapped to this pojo for handling business logic
  */
 
 const val tableName = "TABLE_CURRENCY_EXCHANGE_LIST"
@@ -40,14 +40,33 @@ data class CurrencyRateInfo @Ignore constructor(
     val sourceNotNull: String
         get() = if (String.isEmptyOrNull(source)) "-" else source!!
 
-    val timestampNotNull: Long
-        get() = if (Long.isEmptyOrNull(timestamp)) -1L else timestamp!!
+    var timestampNotNull: Long = 0
+        get() = if (Long.isEmptyOrNull(timestamp)) 0L else timestamp!!
 
     val quotesNotNull: Map<String, Double>
-        get() = if (quotes == null) emptyMap() else createNotEmptyMap(quotes)
+        get() = if (quotes == null) createDummyMapWithCurrencies() else createNotEmptyMap(quotes)
 
 
-    fun createNotEmptyMap(quotes: Map<String?, Double?>?): Map<String, Double> {
+    private fun createDummyMapWithCurrencies(): Map<String, Double> {
+        val dummyQuotes: MutableMap<String, Double> = java.util.HashMap()
+        dummyQuotes["USDGBP"] = 0.582139
+        dummyQuotes["USDINR"] = 0.182139
+        dummyQuotes["USDCAD"] = 0.782139
+        dummyQuotes["USDPLN"] = 0.982139
+        dummyQuotes["USDAOA"] = 0.482139
+        dummyQuotes["USDANG"] = 0.982139
+        dummyQuotes["USDAMD"] = 0.78219
+        dummyQuotes["USDEUR"] = 1.382139
+        dummyQuotes["USDALL"] = 3.382139
+        dummyQuotes["USDAFN"] = 1.382139
+        dummyQuotes["USDAED"] = 2.382139
+        dummyQuotes["USDAFN"] = 1.382139
+        dummyQuotes["USDARS"] = 2.382139
+        return dummyQuotes
+    }
+
+
+    private fun createNotEmptyMap(quotes: Map<String?, Double?>?): Map<String, Double> {
         val quotesNotNull: MutableMap<String, Double> = HashMap() //Object is containing String
         if (quotes != null) {
             for ((key, value) in quotes) {

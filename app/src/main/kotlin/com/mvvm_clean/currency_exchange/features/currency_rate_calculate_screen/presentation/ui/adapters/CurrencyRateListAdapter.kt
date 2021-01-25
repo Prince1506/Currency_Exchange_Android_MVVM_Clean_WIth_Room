@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mvvm_clean.currency_exchange.R
 import com.mvvm_clean.currency_exchange.core.domain.extension.getString
 import com.mvvm_clean.currency_exchange.core.domain.extension.inflate
-import kotlinx.android.synthetic.main.canada_fact_list_items.view.*
+import kotlinx.android.synthetic.main.currency_rate_list_items.view.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
 // Adapter responsible to show item of canada fact list
-class CanadaFactListAdapter
-@Inject constructor() : RecyclerView.Adapter<CanadaFactListAdapter.ViewHolder>() {
+class CurrencyRateListAdapter
+@Inject constructor() : RecyclerView.Adapter<CurrencyRateListAdapter.ViewHolder>() {
 
     private lateinit var collectionKeys: ArrayList<String>
     internal var collection: Map<String, Double> by Delegates.observable(emptyMap()) { _, _, _ ->
@@ -22,7 +22,7 @@ class CanadaFactListAdapter
 
     // Override Methods
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(parent.inflate(R.layout.canada_fact_list_items))
+        ViewHolder(parent.inflate(R.layout.currency_rate_list_items))
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) =
         viewHolder.bind(collectionKeys[position])

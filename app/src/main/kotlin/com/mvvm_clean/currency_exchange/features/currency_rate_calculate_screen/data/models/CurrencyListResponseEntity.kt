@@ -1,11 +1,9 @@
-package com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data
+package com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models
 
 import androidx.annotation.Keep
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.CurrencyListInfo
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models.CurrencyListInfo
 
-// Response for fact list API
-
-
+// Response for currency list API
 @Keep
 data class CurrencyListResponseEntity(
     private val success: String,

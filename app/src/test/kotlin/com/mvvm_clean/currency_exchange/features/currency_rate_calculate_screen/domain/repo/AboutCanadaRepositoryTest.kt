@@ -6,9 +6,9 @@ import com.mvvm_clean.currency_exchange.core.domain.exception.Failure.NetworkCon
 import com.mvvm_clean.currency_exchange.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.currency_exchange.core.domain.functional.Either
 import com.mvvm_clean.currency_exchange.core.domain.functional.Either.Right
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.CanadaFactsResponseEntity
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.CurrencyRateInfo
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.api.AboutCanadaApiImpl
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models.CurrencyRateResponseEntity
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.models.CurrencyRateInfo
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.domain.api.CurrencyRateApiImpl
 import io.mockk.Called
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -32,19 +32,19 @@ class AboutCanadaRepositoryTest : UnitTest() {
     private lateinit var networkHandler: NetworkHandler
 
     @MockK
-    private lateinit var service: AboutCanadaApiImpl
-    private lateinit var canadaFactsResponseEntity: CanadaFactsResponseEntity
+    private lateinit var service: CurrencyRateApiImpl
+    private lateinit var `currencyRate  ResponseEntity`: CurrencyRateResponseEntity
 
     @MockK
-    private lateinit var canadaFactsResponseCall: Call<CanadaFactsResponseEntity>
+    private lateinit var `currencyRat eResponseCall`: Call<CurrencyRateResponseEntity>
 
     @MockK
-    private lateinit var canadaFactsResponse: Response<CanadaFactsResponseEntity>
+    private lateinit var currencyRateResponse: Response<CurrencyRateResponseEntity>
 
     @Before
     fun setUp() {
         networkRepository = AboutCanadaRepository.Network(networkHandler, service)
-        canadaFactsResponseEntity = CanadaFactsResponseEntity(
+        `currencyRate  ResponseEntity` = CurrencyRateResponseEntity(
             TITLE_LBL,
             listOf(
                 Quotes(
@@ -64,10 +64,10 @@ class AboutCanadaRepositoryTest : UnitTest() {
     fun `should return empty POJO by default`() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns true
-        every { canadaFactsResponse.body() } returns null
-        every { canadaFactsResponse.isSuccessful } returns true
-        every { canadaFactsResponseCall.execute() } returns canadaFactsResponse
-        every { service.getFacts() } returns canadaFactsResponseCall
+        every { currencyRateResponse.body() } returns null
+        every { currencyRateResponse.isSuccessful } returns true
+        every { `currencyRat eResponseCall`.execute() } returns currencyRateResponse
+        every { service.getFacts() } returns `currencyRat eResponseCall`
 
         // Act
         val canadaFacts = networkRepository.getFacts()
@@ -84,16 +84,16 @@ class AboutCanadaRepositoryTest : UnitTest() {
     fun `should get canada facts list from service`() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns true
-        every { canadaFactsResponse.body() } returns canadaFactsResponseEntity
-        every { canadaFactsResponse.isSuccessful } returns true
-        every { canadaFactsResponseCall.execute() } returns canadaFactsResponse
-        every { service.getFacts() } returns canadaFactsResponseCall
+        every { currencyRateResponse.body() } returns `currencyRate  ResponseEntity`
+        every { currencyRateResponse.isSuccessful } returns true
+        every { `currencyRat eResponseCall`.execute() } returns currencyRateResponse
+        every { service.getFacts() } returns `currencyRat eResponseCall`
 
         // Act
         val canadaFacts = networkRepository.getFacts()
 
         // Verify
-        canadaFacts shouldEqual Right(canadaFactsResponseEntity.toFacts())
+        canadaFacts shouldEqual Right(`currencyRate  ResponseEntity`.toFacts())
         verify(exactly = 1) { service.getFacts() }
     }
 
@@ -124,9 +124,9 @@ class AboutCanadaRepositoryTest : UnitTest() {
     fun `canada facts service should return server error if no successful response`() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns true
-        every { canadaFactsResponse.isSuccessful } returns false
-        every { canadaFactsResponseCall.execute() } returns canadaFactsResponse
-        every { service.getFacts() } returns canadaFactsResponseCall
+        every { currencyRateResponse.isSuccessful } returns false
+        every { `currencyRat eResponseCall`.execute() } returns currencyRateResponse
+        every { service.getFacts() } returns `currencyRat eResponseCall`
 
         // Act
         val canadaFacts = networkRepository.getFacts()
@@ -144,8 +144,8 @@ class AboutCanadaRepositoryTest : UnitTest() {
     fun `fact request should catch exceptions`() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns true
-        every { canadaFactsResponseCall.execute() } returns canadaFactsResponse
-        every { service.getFacts() } returns canadaFactsResponseCall
+        every { `currencyRat eResponseCall`.execute() } returns currencyRateResponse
+        every { service.getFacts() } returns `currencyRat eResponseCall`
 
         // Act
         val canadaFacts = networkRepository.getFacts()

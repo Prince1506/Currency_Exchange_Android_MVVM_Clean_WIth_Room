@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,22 +18,30 @@ import com.mvvm_clean.currency_exchange.core.domain.exception.Failure.NetworkCon
 import com.mvvm_clean.currency_exchange.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.currency_exchange.core.domain.extension.*
 import com.mvvm_clean.currency_exchange.core.presentation.navigation.Navigator
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.CanadaFactsFailure
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.CurrencyExchangeRequestEntity
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.constants.IAPIConstants.Companion.accessKeyVal
 import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.models.CanadaFactsModel
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.models.CurrencyRatesViewModel
 import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.models.CurrencyListModel
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.ui.adapters.CanadaFactListAdapter
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.models.CurrencyRatesViewModel
 import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.ui.adapters.CurrencyListAdapter
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.ui.adapters.CurrencyRateListAdapter
 import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.ui.adapters.GridSpacingItemDecorationAdapter
-import kotlinx.android.synthetic.main.fragment_canada_facts.*
+import kotlinx.android.synthetic.main.fragment_currency_rate_calc.*
 import kotlinx.android.synthetic.main.layout_currency_list_drop_down.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.lang.Double
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
+
 
 // Fragment responsible to show fact list
-class CanadaFactListFragment : BaseFragment() {
+class CurrencyRateListFragment : BaseFragment(), CoroutineScope {
 
+    private var job: Job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
 
     private val BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout"
     private lateinit var mCurrencyRatesViewModel: CurrencyRatesViewModel
@@ -44,19 +53,17 @@ class CanadaFactListFragment : BaseFragment() {
     lateinit var currencyListAdapter: CurrencyListAdapter
 
     @Inject
-    lateinit var canadaFactListAdapter: CanadaFactListAdapter
+    lateinit var currencyRateListAdapter: CurrencyRateListAdapter
 
-    private val accessKey = "9d7089948c7b2abf5f94c917434a3429"
-    private val currency = ArrayList<String>()
 
     // Override Methods
-    override fun layoutId() = R.layout.fragment_canada_facts
+    override fun layoutId() = R.layout.fragment_currency_rate_calc
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
 
         mCurrencyRatesViewModel = viewModel(viewModelFactory) {
-            observe(getCanadaFactLiveData(), ::renderCanadaFactsList)
+            observe(getCanadaFactLiveData(), ::renderCurrencyRateList)
             failure(failure, ::handleFailure)
         }
         mCurrencyRatesViewModel = viewModel(viewModelFactory) {
@@ -76,31 +83,12 @@ class CanadaFactListFragment : BaseFragment() {
 
         // retain this fragment when activity is re-initialized
         retainInstance = true
-
-        currency.add("EUR")
-        currency.add("GBP")
-        currency.add("INR")
-        currency.add("YEN")
-        currency.add("CAD")
-        currency.add("PLN")
-        currency.add("AOA")
-        currency.add("ANG")
-        currency.add("AMD")
-        currency.add("ALL")
-        currency.add("AFN")
-        currency.add("AED")
-        currency.add("ARS")
-        currency.add("AUD")
-        currency.add("AWG")
-        currency.add("AZN")
-        currency.add("BAM")
-        currency.add("USD")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeView()
-        mCurrencyRatesViewModel.getCurrencyList(accessKey)
+        mCurrencyRatesViewModel.getCurrencyList(accessKeyVal)
     }
 
     /**
@@ -112,7 +100,7 @@ class CanadaFactListFragment : BaseFragment() {
         if (savedInstanceState != null) {
             val savedRecyclerLayoutState =
                 savedInstanceState.getParcelable<Parcelable>(BUNDLE_RECYCLER_LAYOUT)
-            rv_canadaFactList.layoutManager?.onRestoreInstanceState(savedRecyclerLayoutState)
+            rv_currencyRateList.layoutManager?.onRestoreInstanceState(savedRecyclerLayoutState)
         }
     }
 
@@ -120,13 +108,13 @@ class CanadaFactListFragment : BaseFragment() {
         super.onSaveInstanceState(outState)
         outState.putParcelable(
             BUNDLE_RECYCLER_LAYOUT,
-            rv_canadaFactList.layoutManager?.onSaveInstanceState()
+            rv_currencyRateList.layoutManager?.onSaveInstanceState()
         )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        rv_canadaFactList.adapter = null
+        rv_currencyRateList.adapter = null
     }
     //---
 
@@ -143,7 +131,7 @@ class CanadaFactListFragment : BaseFragment() {
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                var isError = false
+                var isError: Boolean
                 ed_amount.setHintTextColor(resources.getColor(R.color.transparent_white))
 
 
@@ -177,7 +165,7 @@ class CanadaFactListFragment : BaseFragment() {
         val spanCount = 2
         val gridLayoutManager = GridLayoutManager(activity, spanCount)
         val spacing = 16
-        rv_canadaFactList.addItemDecoration(
+        rv_currencyRateList.addItemDecoration(
             GridSpacingItemDecorationAdapter(
                 spanCount,
                 dpToPx(spacing),
@@ -185,13 +173,17 @@ class CanadaFactListFragment : BaseFragment() {
             )
         )
 
-        rv_canadaFactList.layoutManager = gridLayoutManager
+        rv_currencyRateList.layoutManager = gridLayoutManager
 
-        rv_canadaFactList.adapter = canadaFactListAdapter
+        rv_currencyRateList.adapter = currencyRateListAdapter
 
         rl_check_currency_rates_parent_btn.setOnClickListener {
-            if (isFormValid())
-                loadCanadaFactsList()
+            if (isFormValid()) {
+                launch {
+                    loadCurrencyRateList()
+                }
+            }
+
         }
         iv_currency_popup_cancel.setOnClickListener {
             rl_currency_layout_parent.gone()
@@ -217,53 +209,45 @@ class CanadaFactListFragment : BaseFragment() {
         return 0
     }
 
-    private fun loadCanadaFactsList() {
-        val accessKey = "9d7089948c7b2abf5f94c917434a3429"
+    private suspend fun loadCurrencyRateList() {
         val source = tv_currency.text.toString()
-        val format = 1
 
-        val currencyExchangeRequestEntity = CurrencyExchangeRequestEntity(
-            0,
-            accessKey,
-            currency.joinToString(getString(R.string.comma)),
-            source,
-            format
-        )
+        val currencyRatePojoFromDb = mCurrencyRatesViewModel.getCurrencyRatePojoFromDb(source)
         showProgress()
-        mCurrencyRatesViewModel.loadCanadaFacts(currencyExchangeRequestEntity)
+        mCurrencyRatesViewModel.loadCurrencyRateList(currencyRatePojoFromDb)
+
     }
 
-    private fun renderCanadaFactsList(canadaFactsModel: CanadaFactsModel?) {
+    private fun renderCurrencyRateList(currencyRateModel: CanadaFactsModel?) {
 
-        if (canadaFactsModel?.error == null) {
-            val amount = Double.parseDouble(ed_amount.text.toString())
-
-            val currencyWithAmountMap = canadaFactsModel?.quotes?.mapValues { it.value * amount }
-            if (currencyWithAmountMap != null) {
-                canadaFactListAdapter.collection = currencyWithAmountMap
-            }
-            rv_canadaFactList.visible()
-        } else {
-            notifyWithAction(canadaFactsModel.error.info)
+        if (currencyRateModel?.error != null) {
+            showAlertDialog(
+                getString(R.string.dummy_currency_list_title),
+                getString(R.string.showing_dummy_currencies)
+            )
+            notifyWithAction(currencyRateModel.error.info)
         }
+        val amount = Double.parseDouble(ed_amount.text.toString())
+
+        val currencyWithAmountMap = currencyRateModel?.quotes?.mapValues { it.value * amount }
+        if (currencyWithAmountMap != null) {
+            currencyRateListAdapter.collection = currencyWithAmountMap
+        }
+        rv_currencyRateList.visible()
         hideProgress()
     }
 
-    fun extractValue(entry: Map.Entry<String, kotlin.Double>) {
-
-    }
 
     private fun handleFailure(failure: Failure?) {
         when (failure) {
             is NetworkConnection -> renderFailure(R.string.failure_network_connection)
             is ServerError -> renderFailure(R.string.failure_server_error)
-            is CanadaFactsFailure.ListNotAvailable -> renderFailure(R.string.failure_canada_fact_list_unavailable)
             else -> renderFailure(R.string.failure_server_error)
         }
     }
 
     private fun renderFailure(@StringRes message: Int) {
-        rv_canadaFactList.gone()
+        rv_currencyRateList.gone()
         hideProgress()
         notifyWithAction(getString(message))
     }
@@ -278,5 +262,12 @@ class CanadaFactListFragment : BaseFragment() {
         }
         if (currencyListModel?.currency != null)
             currencyListAdapter.collection = currencyListModel.currency
+    }
+
+    private fun showAlertDialog(title: String, message: String) {
+        AlertDialog.Builder(context!!)
+            .setTitle(title)
+            .setMessage(message)
+            .show()
     }
 }

@@ -1,9 +1,8 @@
 <resources>
-    <string name="canada_fact_screen_title">Canada Facts</string>
     <string name="failure_network_connection">No Network Connection.</string>
     <string name="failure_server_error">Server Error</string>
-    <string name="failure_canada_fact_list_unavailable">Canada Facts Unavailable.</string>
-    <string name="failure_canada_fact_non_existent">Canada Fact Not Existent.</string>
+    <string name="failure_currency_rate_list_unavailable">Currency Rate Unavailable.</string>
+    <string name="failure_currency_rate_non_existent">Canada Fact Not Existent.</string>
     <string name="content_description_empty">No content description.</string>
     <string name="right_angular_arrow"><![CDATA[>]]></string>
     <string name="dash">-</string>
