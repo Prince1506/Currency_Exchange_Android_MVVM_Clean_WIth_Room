@@ -19,7 +19,7 @@ interface CurrencyRateListDao {
     @Query("SELECT * FROM $tableName")
     fun getAllCurrencyRates(): List<CurrencyRateInfo>
 
-    @Query("SELECT * FROM $tableName WHERE id=:id")
-    fun getCurrencyRateById(id: Int): CurrencyRateInfo
+    @Query("SELECT * FROM $tableName WHERE source=:source")
+    fun getCurrencyRateById(source: String): CurrencyRateInfo
 
 }

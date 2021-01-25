@@ -22,10 +22,10 @@ import javax.inject.Inject
 /**
  * Api flow is controlled here
  */
-interface AboutCanadaRepository {
+interface CurrencyRateRepository {
 
-    fun getFacts(
-        currencyExchangeRequestEntity: com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.models.CurrencyExchangeRequestEntity,
+    fun getRates(
+        currencyExchangeRequestEntity: CurrencyExchangeRequestEntity,
     ): Either<Failure, CurrencyRateInfo>
 
     class Network
@@ -33,14 +33,14 @@ interface AboutCanadaRepository {
         private val networkHandler: NetworkHandler,
         private val diskDataSource: DiskDataSource,
         private val apiImpl: CurrencyRateApiImpl
-    ) : AboutCanadaRepository {
+    ) : CurrencyRateRepository {
 
-        override fun getFacts(
+        override fun getRates(
             currencyExchangeRequestEntity: CurrencyExchangeRequestEntity,
         ): Either<Failure, CurrencyRateInfo> {
 
             val currencyExchangeRequestEntityDb =
-                diskDataSource.getCurrencyExchangeRateById(currencyExchangeRequestEntity.id)
+                diskDataSource.getCurrencyExchangeRateById(currencyExchangeRequestEntity.source)
 
             if (currencyExchangeRequestEntityDb != null && !currencyExchangeRequestEntity.isTimeExpired) {
                 return Right(currencyExchangeRequestEntityDb)
@@ -48,14 +48,14 @@ interface AboutCanadaRepository {
                 when (networkHandler.isNetworkAvailable()) {
                     true ->
                         return request(
-                            apiImpl.getFacts(
+                            apiImpl.getRates(
                                 currencyExchangeRequestEntity.accessKey,
                                 currencyExchangeRequestEntity.currency,
                                 currencyExchangeRequestEntity.source,
                                 currencyExchangeRequestEntity.format
                             ),
                             {
-                                it.toFacts()
+                                it.toRates(currencyExchangeRequestEntity.source)
 
                             },
                             CurrencyRateResponseEntity(
@@ -106,7 +106,6 @@ interface AboutCanadaRepository {
                         Right(transform((response.body() ?: default)))
                     }
                     false -> {
-                        ServerError.message = "sdf"
                         return Left(ServerError)
                     }
 

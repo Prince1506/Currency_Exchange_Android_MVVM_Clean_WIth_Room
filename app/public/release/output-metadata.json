@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.mvvm_clean.about_canada.sample",
+  "applicationId": "com.mvvm_clean.currency_rates.sample",
   "variantName": "processPublicReleaseResources",
   "elements": [
     {

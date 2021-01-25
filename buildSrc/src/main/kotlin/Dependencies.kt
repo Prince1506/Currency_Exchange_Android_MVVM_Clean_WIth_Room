@@ -11,9 +11,9 @@ object AndroidSdk {
 
 object AndroidClient {
     const val release = "release"
-    const val keystore_path = "about_canada_keystore.jks"
+    const val keystore_path = "currency_rates_keystore.jks"
     const val keyPassword = "12385633"
-    const val appId = "com.mvvm_clean.about_canada.sample"
+    const val appId = "com.mvvm_clean.currency_rates.sample"
     const val versionCode = 1
     const val versionName = "1.0"
     const val testRunner = "androidx.test.runner.AndroidJUnitRunner"

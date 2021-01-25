@@ -4,9 +4,9 @@ import com.mvvm_clean.currency_exchange.core.base.KParcelable
 import com.mvvm_clean.currency_exchange.core.data.Error
 import kotlinx.android.parcel.Parcelize
 
-// Canada fact list model to be shown on UI
+// currency Rates list model to be shown on UI
 @Parcelize
-data class CanadaFactsModel(
+data class CurrencyRateModel(
     val success: String,
     val terms: String,
     val privacy: String,

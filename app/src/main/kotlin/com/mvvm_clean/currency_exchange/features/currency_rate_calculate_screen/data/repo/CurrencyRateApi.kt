@@ -19,7 +19,7 @@ internal interface CurrencyRateApi :IAPIConstants{
     }
 
     @GET(FACTS)
-    fun getFacts(
+    fun getRates(
         @Query(access_key) accessKey: String,
         @Query(currencies, encoded = true) currency: String,
         @Query(IAPIConstants.source) source: String,

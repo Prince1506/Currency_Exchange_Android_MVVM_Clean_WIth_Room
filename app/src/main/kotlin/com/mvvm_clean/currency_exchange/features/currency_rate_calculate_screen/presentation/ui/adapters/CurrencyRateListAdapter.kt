@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.currency_rate_list_items.view.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-// Adapter responsible to show item of canada fact list
+// Adapter responsible to show item of currencyRates list
 class CurrencyRateListAdapter
 @Inject constructor() : RecyclerView.Adapter<CurrencyRateListAdapter.ViewHolder>() {
 

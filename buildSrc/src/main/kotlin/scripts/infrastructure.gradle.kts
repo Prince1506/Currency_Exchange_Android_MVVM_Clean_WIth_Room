@@ -42,8 +42,8 @@ tasks.register("runApp", Exec::class) {
         val sdkDir = properties["sdk.dir"]
         val adb = "${sdkDir}/platform-tools/adb"
 
-        val applicationPackage = "com.mvvm_clean.about_canada.sample.${Default.BUILD_FLAVOR}.${Default.BUILD_TYPE}"
-        val launchActivity = "com.mvvm_clean.about_canada.sample.core.navigation.RouteActivity"
+        val applicationPackage = "com.mvvm_clean.currency_rates.sample.${Default.BUILD_FLAVOR}.${Default.BUILD_TYPE}"
+        val launchActivity = "com.mvvm_clean.currency_rates.sample.core.navigation.RouteActivity"
 
         commandLine(adb, "shell", "am", "start", "-n", "${applicationPackage}/${launchActivity}")
     }

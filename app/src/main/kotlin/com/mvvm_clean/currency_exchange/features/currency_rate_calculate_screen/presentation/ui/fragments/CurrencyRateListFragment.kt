@@ -19,7 +19,7 @@ import com.mvvm_clean.currency_exchange.core.domain.exception.Failure.ServerErro
 import com.mvvm_clean.currency_exchange.core.domain.extension.*
 import com.mvvm_clean.currency_exchange.core.presentation.navigation.Navigator
 import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.data.repo.constants.IAPIConstants.Companion.accessKeyVal
-import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.models.CanadaFactsModel
+import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.models.CurrencyRateModel
 import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.models.CurrencyListModel
 import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.models.CurrencyRatesViewModel
 import com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen.presentation.ui.adapters.CurrencyListAdapter
@@ -36,7 +36,7 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 
-// Fragment responsible to show fact list
+// Fragment responsible to show currency Rates list
 class CurrencyRateListFragment : BaseFragment(), CoroutineScope {
 
     private var job: Job = Job()
@@ -63,7 +63,7 @@ class CurrencyRateListFragment : BaseFragment(), CoroutineScope {
         appComponent.inject(this)
 
         mCurrencyRatesViewModel = viewModel(viewModelFactory) {
-            observe(getCanadaFactLiveData(), ::renderCurrencyRateList)
+            observe(getCurrencyRateLiveData(), ::renderCurrencyRateList)
             failure(failure, ::handleFailure)
         }
         mCurrencyRatesViewModel = viewModel(viewModelFactory) {
@@ -218,7 +218,7 @@ class CurrencyRateListFragment : BaseFragment(), CoroutineScope {
 
     }
 
-    private fun renderCurrencyRateList(currencyRateModel: CanadaFactsModel?) {
+    private fun renderCurrencyRateList(currencyRateModel: CurrencyRateModel?) {
 
         if (currencyRateModel?.error != null) {
             showAlertDialog(

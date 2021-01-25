@@ -18,7 +18,7 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 /**
- * View Model responsible for showing canada fact list on screen.
+ * View Model responsible for showing currency Rates list on screen.
  * It will interact with both data as well as UI layer
  */
 class CurrencyRatesViewModel @Inject constructor(
@@ -33,8 +33,8 @@ class CurrencyRatesViewModel @Inject constructor(
         return isProgressLoading
     }
 
-    private val mutableCanadaLiveData: MutableLiveData<CanadaFactsModel> by lazy {
-        MutableLiveData<CanadaFactsModel>()
+    private val mutableCurrencyRateLiveData: MutableLiveData<CurrencyRateModel> by lazy {
+        MutableLiveData<CurrencyRateModel>()
     }
 
     fun getCurrencyLiveData(): LiveData<CurrencyListModel> {
@@ -45,8 +45,8 @@ class CurrencyRatesViewModel @Inject constructor(
         MutableLiveData<CurrencyListModel>()
     }
 
-    fun getCanadaFactLiveData(): LiveData<CanadaFactsModel> {
-        return mutableCanadaLiveData
+    fun getCurrencyRateLiveData(): LiveData<CurrencyRateModel> {
+        return mutableCurrencyRateLiveData
     }
 
 
@@ -74,14 +74,16 @@ class CurrencyRatesViewModel @Inject constructor(
 
     private fun handleCurrencyRateList(currencyRateInfo: CurrencyRateInfo) {
         viewModelScope.launch(Dispatchers.IO) {
-            currencyRateInfo.timestampNotNull = System.currentTimeMillis()
-            currencyRateInfo.timestamp = System.currentTimeMillis()
-            diskDataSource.insertAllCurrencyExchangeRates(currencyRateInfo)
+            if (currencyRateInfo.isDataFromNetwork) {
+                currencyRateInfo.timestampNotNull = System.currentTimeMillis()
+                currencyRateInfo.timestamp = System.currentTimeMillis()
+                diskDataSource.insertAllCurrencyExchangeRates(currencyRateInfo)
+            }
 
         }
 
         isProgressLoading.value = false
-        mutableCanadaLiveData.value = CanadaFactsModel(
+        mutableCurrencyRateLiveData.value = CurrencyRateModel(
             currencyRateInfo.successNotNull,
             currencyRateInfo.termsNotNull,
             currencyRateInfo.privacyNotNull,
@@ -114,7 +116,7 @@ class CurrencyRatesViewModel @Inject constructor(
             )
 
             val currencyExchangeResponseEntityInDb =
-                diskDataSource.getCurrencyExchangeRateById(IAPIConstants.currencyRateId)
+                diskDataSource.getCurrencyExchangeRateById(source)
 
             if (currencyExchangeResponseEntityInDb != null) {
 

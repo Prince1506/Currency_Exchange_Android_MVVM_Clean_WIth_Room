@@ -16,16 +16,17 @@ const val tableName = "TABLE_CURRENCY_EXCHANGE_LIST"
 
 @Entity(tableName = tableName)
 data class CurrencyRateInfo @Ignore constructor(
-    @PrimaryKey
-    var id: Int = 0,
     var success: String? = null,
     var terms: String? = null,
     var privacy: String? = null,
-    var source: String? = null,
+
+    @PrimaryKey
+    var source: String = String.empty(), // Default value if API return null because primary key cannot be null
     var timestamp: Long? = null,
     var quotes: Map<String?, Double?>? = null,
 
-    @Ignore var error: Error? = null
+    @Ignore var error: Error? = null,
+    @Ignore var isDataFromNetwork: Boolean = false
 ) {
 
     val successNotNull: String
@@ -79,27 +80,25 @@ data class CurrencyRateInfo @Ignore constructor(
     }
 
     constructor(
-        id: Int,
         success: String?,
         terms: String?,
         privacy: String?,
-        source: String?,
+        source: String,
         timestamp: Long?,
         quotes: Map<String?, Double?>?
     ) : this(
-        id,
         success,
         terms,
         privacy,
         source,
         timestamp,
         quotes,
-        null
+        null,
+        false
     )
 
     companion object {
         val empty = CurrencyRateInfo(
-            0,
             String.empty(),
             String.empty(),
             String.empty(),

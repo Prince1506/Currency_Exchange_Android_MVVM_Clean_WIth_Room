@@ -19,6 +19,6 @@ class DiskDataSource
     fun insertAllCurrencyExchangeRates(currentTaskEntity: CurrencyRateInfo) =
         database?.CurrencyRateDao()?.insertAllCurrencyRates(currentTaskEntity)
 
-    fun getCurrencyExchangeRateById(id: Int) =
-        database?.CurrencyRateDao()?.getCurrencyRateById(id)
+    fun getCurrencyExchangeRateById(source: String) =
+        database?.CurrencyRateDao()?.getCurrencyRateById(source)
 }

@@ -3,7 +3,7 @@ package com.mvvm_clean.currency_exchange.features.currency_rate_calculate_screen
 import com.mvvm_clean.currency_exchange.core.base.KParcelable
 import kotlinx.android.parcel.Parcelize
 
-// Canada fact list model to be shown on UI
+// currency Rates list model to be shown on UI
 @Parcelize
 data class CurrencyListModel(
     val success: String,

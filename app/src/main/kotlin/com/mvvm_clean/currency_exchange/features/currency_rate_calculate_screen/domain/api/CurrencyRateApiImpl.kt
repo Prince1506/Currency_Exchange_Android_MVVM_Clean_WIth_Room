@@ -15,20 +15,20 @@ import javax.inject.Singleton
 class CurrencyRateApiImpl
 @Inject constructor(retrofit: Retrofit) : CurrencyRateApi {
 
-    private val aboutCanadaApi by lazy { retrofit.create(CurrencyRateApi::class.java) }
+    private val aboutCurrencyApi by lazy { retrofit.create(CurrencyRateApi::class.java) }
 
-    override fun getFacts(
+    override fun getRates(
         accessKey: String,
         currency: String,
         source: String,
         format: Int
     ): Call<CurrencyRateResponseEntity> {
-        return aboutCanadaApi.getFacts(accessKey, currency, source, format)
+        return aboutCurrencyApi.getRates(accessKey, currency, source, format)
     }
 
     override fun getCurrencyList(
         accessKey: String
     ): Call<CurrencyListResponseEntity> {
-        return aboutCanadaApi.getCurrencyList(accessKey)
+        return aboutCurrencyApi.getCurrencyList(accessKey)
     }
 }

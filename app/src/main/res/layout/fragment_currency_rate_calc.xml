@@ -69,7 +69,7 @@
         android:background="@drawable/rounded_rect_bg"
         android:backgroundTint="@color/black"
         android:backgroundTintMode="multiply"
-        app:layout_constraintBottom_toTopOf="@+id/srl_canada_fact_pullToRefresh"
+        app:layout_constraintBottom_toTopOf="@+id/srl_currency_rate_pullToRefresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

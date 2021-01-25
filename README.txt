@@ -3,12 +3,15 @@ FOR RUNNING THE PROJECT
     Need to use JDK 9 for Robolectric unit test cases.
 
 Please note:
-1. I had removed items whose all data are null. So if I am getting fact image, description as well as title - "null"
-then am not showing that item on screen
+1. Screen refresh timer is set as 10 minute. You can toggle it from IApiConstant file
 
-2. Changing orientation will preserve item position.
+2. I am using free plan for currency api. In free plan source currency is fixed. Henceforth as instructed inside API if currency data is unavaiable we need to calculate currency rate 
+inside app. So I had created dummy currency list for unavailable currency and am showing it if user select any currency other than USD
 
-3. I had use Robolectric library and this library has issue right now which
+3. Running unit test cases requires JDK 9. I had attached all unit test cases passed
+screenshot inside attachment.
+
+4. I had use Robolectric library and this library has issue right now which
 could be fixed by using JaCoco as Code Coverage inside android studio.
 
 If you don't set it then one test will fail inside CurrencyFactsViewModelTest only if you run
@@ -19,14 +22,13 @@ https://github.com/robolectric/robolectric/issues/3023
 
 So if you want to test code coverage please check it separately. (One file at a time)
 
+5. View Model unit test will fail if ran combinely. This is happening because of issue inside
+mockito library. They had acknowledged it and you can go through more about it from below link
+https://github.com/mockk/mockk/issues/199
 
-4. Images are coming of improper size from server. To display them completely I am making them centre fit.
-Because of this if it's not coming of proper width then it will be shown as it's.
+For now please run unit test for view model separately it will pass.
 
-The second option was to force it to be shown as rectangle doing so will need to crop the images maintaining the aspect ratio henceforth image detail will lost. Hence, I had not used this option.
-
-5. Few image URLs are coming null or are invalid when checked from browser. Hence for those I am showing placeholder image.
-
+4. To create signed apk password is currency123. Keystore is inside app folder.
 
 ARCHITECTURE USED
 1. Kotlin with MVVM clean architecture, Lifecycle Extensions
@@ -57,7 +59,7 @@ Cases covered
 Note:
 Normally application always contains login screen. That's why I had created one test to show that auto login code is working properly or not using below point.
 
-3. Check if user is logged in then canada fact screen should be shown.
+3. Check if user is logged in then Currency list screen should be shown.
 
 4. Check if user is not logged in then login screen should be shown.
 5. “Check if user is login” - method is working properly or not.
@@ -72,46 +74,26 @@ Normally application always contains login screen. That's why I had created one 
 
 
 Points followed
-1.Ingests a json feed from https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json
-  •The feed contains a title and a list of rows DONE
-. •You can use a third party json parser to parse this if desired. DONE. I had used retrofit API with Gson
+ Exchange rates must be fetched from: https://currencylayer.com/documentation - Done
+ Use free API Access Key for using the API  - Done
+ User must be able to select a currency from a list of currencies provided by the API(for currencies that are not available, convert them on the app side. When converting, floating-point error is accpetable)  - Done
+ User must be able to enter desired amount for selected currency  - Done
+ User should then see a list of exchange rates for the selected currency  - Done
+ Rates should be persisted locally and refreshed no more frequently than every 30 minutes (to limit bandwidth usage)  - Done
+ Write unit testing  - Done
 
-2.Displays the content (including image, title and description) in a ListView DONE (Displayed it inside recycler view)
-
-  •The title in the ActionBar should be updated from the json data. DONE
-
-  •Each row should be dynamically sized to the right height to display its content-no clipping, no extraneous white-space etc.This means some rows will be larger than others. DONE
-
-
-
-3.Loads the images lazily(don’t download them all at once, but only as needed). DONE by default happens inside Recycler View
-
-4.Implement a refresh functionall owing the data & view to be updated. DONE
-
-  •Use either a refresh button or pull down to refresh. DONE I had used pull down refresh
-
-5.Should not block UI when loading the data from the json feed. DONE
-
-6.Each row of the table should look roughly like the following image: DONE
+UI Suggestion:
+ Some way to select a currency - Done
+ Some text entry widget to enter the amount - Done
+ A list/grid of exchange rates - Done
+ It doesn’t need to be super pretty, but it shouldn’t be broken as well ;) - Done
 
 
 
-Additional Guidelines Done
-1.Use a Github repository to manage the source code. A clear Git history showing your process is required. Commit your changes to git in small chunks with meaningful comments.DONE
-
-2. The app should target Android version 7.1 (v25). Don’t worry about backwards compatibility for this task. DONE
-
-
-3.The list should scroll smoothly. As much data as possible should be cached.DONE
-
-4.Comment your code where necessary. DONE
-
-5.Polish your code as much as possible. DONE
-
-6.Feel free to use any best-practice open-source libraries/examples you need, just be sure to give credit. Do not use beta versions of any libraries. DONE
-
-7.Include at least two UI unit tests; one that asserts the state of the screen when set up with all data present, and one that asserts the state of the screen when in an error state.
-DONE
-
-8.Handle screen rotation efficiently. DONE I had designed separate UI for landscape to use more space available during landscape mode
+What we're looking for:
+ An App that meets the Functional Requirements above - Done
+ Your coding style! Show us how you like to write your code - Done
+ Architecture, how you've structured your code - Done
+ Principles, how you belive code should be written- Done
+ Qualities, how you guarantee your code is functioning - Done
 
